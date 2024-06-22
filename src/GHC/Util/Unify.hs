@@ -115,7 +115,7 @@ unify' nm root x y
     | Just (x, y) <- cast (x, y) = if (x :: FastString) == y then Just mempty else Nothing
 
     -- We need some type magic to reduce this.
-    | Just (x :: EpAnn Anchor) <- cast x = Just mempty
+    | Just (x :: EpAnn EpaLocation) <- cast x = Just mempty
     | Just (x :: EpAnn AnnContext) <- cast x = Just mempty
     | Just (x :: EpAnn AnnExplicitSum) <- cast x = Just mempty
     | Just (x :: EpAnn AnnFieldLabel) <- cast x = Just mempty
