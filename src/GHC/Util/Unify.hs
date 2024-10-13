@@ -78,7 +78,7 @@ substitute (Subst bind) = transformBracketOld exp . transformBi pat . transformB
     exp (L _ (HsVar _ x)) = lookup (rdrNameStr x) bind
     -- Operator applications.
     exp (L loc (OpApp _ lhs (L _ (HsVar _ x)) rhs))
-      | Just y <- lookup (rdrNameStr x) bind = Just (L loc (OpApp noAnn lhs y rhs))
+      | Just y <- lookup (rdrNameStr x) bind = Just (L loc (OpApp noExtField lhs y rhs))
     -- Left sections.
     exp (L loc (SectionL _ exp (L _ (HsVar _ x))))
       | Just y <- lookup (rdrNameStr x) bind = Just (L loc (SectionL noExtField exp y))
@@ -164,7 +164,7 @@ unifyComposed' nm x1 y11 dot y12 =
   ((, Just y11) <$> unifyExp' nm False x1 y12)
     <|> case y12 of
           (L _ (OpApp _ y121 dot' y122)) | isDot dot' ->
-            unifyComposed' nm x1 (noLocA (OpApp noAnn y11 dot y121)) dot' y122
+            unifyComposed' nm x1 (noLocA (OpApp noExtField y11 dot y121)) dot' y122
           _ -> Nothing
 
 -- unifyExp handles the cases where both x and y are HsApp, or y is OpApp. Otherwise,

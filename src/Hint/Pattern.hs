@@ -69,7 +69,7 @@ import Data.Either
 import Refact.Types hiding (RType(Pattern, Match), SrcSpan)
 import Refact.Types qualified as R (RType(Pattern, Match), SrcSpan)
 
-import GHC.Hs
+import GHC.Hs hiding (asPattern)
 import GHC.Types.SrcLoc
 import GHC.Types.Name.Reader
 import GHC.Types.Name.Occurrence
@@ -194,7 +194,7 @@ asPattern (L loc x) = concatMap decl (universeBi x)
     decl _ = []
 
     match :: LMatch GhcPs (LHsExpr GhcPs) -> (Pattern, String -> Pattern -> [Refactoring R.SrcSpan] -> Idea)
-    match o@(L loc (Match _ ctx (L lpats pats) grhss)) = (Pattern (locA loc) R.Match pats grhss, \msg (Pattern _ _ pats grhss) rs -> suggest msg (reLoc o) (noLoc (Match noAnn ctx  (L lpats pats) grhss) :: Located (Match GhcPs (LHsExpr GhcPs))) rs)
+    match o@(L loc (Match _ ctx (L lpats pats) grhss)) = (Pattern (locA loc) R.Match pats grhss, \msg (Pattern _ _ pats grhss) rs -> suggest msg (reLoc o) (noLoc (Match noExtField ctx  (L lpats pats) grhss) :: Located (Match GhcPs (LHsExpr GhcPs))) rs)
 
 -- First Bool is if 'Strict' is a language extension. Second Bool is
 -- if this pattern in this context is going to be evaluated strictly.

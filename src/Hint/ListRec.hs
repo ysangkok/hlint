@@ -175,7 +175,7 @@ findCase x = do
       emptyLocalBinds = EmptyLocalBinds noExtField :: HsLocalBindsLR GhcPs GhcPs -- Empty where clause.
       gRHS e = noLocA $ GRHS noAnn [] e :: LGRHS GhcPs (LHsExpr GhcPs) -- Guarded rhs.
       gRHSSs e = GRHSs emptyComments [gRHS e] emptyLocalBinds -- Guarded rhs set.
-      match e = Match{m_ext=noAnn,m_pats=noLocA ps12, m_grhss=gRHSSs e, ..} -- Match.
+      match e = Match{m_ext=noExtField,m_pats=noLocA ps12, m_grhss=gRHSSs e, ..} -- Match.
       matchGroup e = MG{mg_alts=noLocA [noLocA $ match e], mg_ext=Generated OtherExpansion SkipPmc, ..} -- Match group.
       funBind e = FunBind {fun_matches=matchGroup e, ..} :: HsBindLR GhcPs GhcPs -- Fun bind.
 
